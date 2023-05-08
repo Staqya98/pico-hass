@@ -1,2 +1,2 @@
 # pico-hass
-Pico based homeassistant
+Pico based homeassistant!
