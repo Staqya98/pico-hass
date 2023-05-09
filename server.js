@@ -2,23 +2,28 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const { Board, Led } = require("johnny-five");
+const SerialPort = require('serialport');
 
-const board = new Board({ repl: false });
+// Replace "COM4" with the correct serial port for your Pico
+const port = new SerialPort("COM4", { baudRate: 9600 });
 
-board.on("ready", () => {
-    const led = new Led.RGB({ pins: { red: 5, green: 6, blue: 7 } });
-    led.color("#000000");
+port.on("open", () => {
+  console.log("Serial port opened");
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
   
-    io.on('connection', (socket) => {
-      console.log('a user connected');
-  
-      socket.on('set_rgb_led', (data) => {
-        console.log('set_rgb_led', data);
-        led.color(data.r, data.g, data.b);
-      });
+  socket.on('set_rgb_led', (data) => {
+    console.log('set_rgb_led', data);
+    const message = `r${data.r}g${data.g}b${data.b}\n`;
+    port.write(message, (err) => {
+      if (err) {
+        console.log("Error writing to serial port:", err);
+        }
+      }); 
     });
   });
+});
   
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
