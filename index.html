@@ -1,33 +1,24 @@
-<!doctype html>
-<html lang = en>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Automation System</title>
-  </head>
-  <body>
-    <h1>Home Automation System</h1>
-    <h2>RGB LED</h2>
-    <form>
-      <label for="red">Red:</label>
-      <input type="range" id="red" name="red" min="0" max="255" value="0"><br>
-      <label for="green">Green:</label>
-      <input type="range" id="green" name="green" min="0" max="255" value="0"><br>
-      <label for="blue">Blue:</label>
-      <input type="range" id="blue" name="blue" min="0" max="255" value="0"><br>
-      <input type="submit" value="Submit">
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-
-      document.querySelector('form').addEventListener('submit', (event) => {
-        event.preventDefault();
-        const r = document.getElementById('red').value;
-        const g = document.getElementById('green').value;
-        const b = document.getElementById('blue').value;
-        socket.emit('set_rgb_led', {r: r, g: g, b: b});
-      });
-    </script>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      font-size: 3rem;
+    }
+  </style>
+  <title>Home Automation</title>
+</head>
+<body>
+  <h1>Home Automation</h1>
+</body>
 </html>
