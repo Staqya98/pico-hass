@@ -6,6 +6,7 @@
   <style>
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -15,10 +16,48 @@
     h1 {
       font-size: 3rem;
     }
+    #color-controls {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      max-width: 300px;
+    }
+    input[type="range"] {
+      width: 100%;
+    }
   </style>
+  <script>
+    async function setColor(r, g, b) {
+      const response = await fetch('/api/color', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ r, g, b }),
+      });
+
+      if (response.ok) {
+        console.log('Color set successfully');
+      } else {
+        console.error('Error setting color');
+      }
+    }
+
+    function onColorChange() {
+      const r = parseInt(document.getElementById('red').value);
+      const g = parseInt(document.getElementById('green').value);
+      const b = parseInt(document.getElementById('blue').value);
+      setColor(r, g, b);
+    }
+  </script>
   <title>Home Automation</title>
 </head>
 <body>
   <h1>Home Automation</h1>
+  <div id="color-controls">
+    <input id="red" type="range" min="0" max="65535" oninput="onColorChange()">
+    <input id="green" type="range" min="0" max="65535" oninput="onColorChange()">
+    <input id="blue" type="range" min="0" max="65535" oninput="onColorChange()">
+  </div>
 </body>
 </html>
